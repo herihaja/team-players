@@ -13,7 +13,9 @@ services:
         cap_add:
             - SYS_NICE
         volumes:
-            - ./mysql/default:/var/lib/mysql
+            - mysqlbdvol:/var/lib/mysql
+        ports:
+            - "3307:3306"
     php:
         container_name: tt_php
         build:
@@ -26,17 +28,17 @@ services:
         depends_on:
             - database
     nginx:
-      container_name: tt_nginx
-      image: nginx:stable-alpine
-      ports:
-        - '8008:80'
-      restart: always 
-      volumes:
-        - ./:/var/www
-        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      depends_on:
-        - php
-        - database
+        container_name: tt_nginx
+        image: nginx:stable-alpine
+        ports:
+            - '8008:80'
+        restart: always 
+        volumes:
+            - ./:/var/www
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+            - database
     phpmyadmin:
         container_name: tt_phpmyadmin
         image: phpmyadmin
@@ -49,3 +51,6 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         ports:
             - '8090:80'
+
+volumes:
+    mysqlbdvol:
