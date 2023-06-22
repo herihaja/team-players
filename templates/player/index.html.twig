@@ -1,27 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Player index{% endblock %}
+{% block title %}Player list{% endblock %}
 
 {% block body %}
-    <h1>Player index</h1>
+    <h1>Player list</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Surname</th>
+                <th>Team</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for player in players %}
+        {% for player in paginator.items %}
             <tr>
-                <td>{{ player.id }}</td>
                 <td>{{ player.name }}</td>
                 <td>{{ player.surname }}</td>
+                <td>{{ player.team }}</td>
                 <td>
-                    <a href="{{ path('app_player_show', {'id': player.id}) }}">show</a>
                     <a href="{{ path('app_player_edit', {'id': player.id}) }}">edit</a>
                 </td>
             </tr>
@@ -32,6 +31,8 @@
         {% endfor %}
         </tbody>
     </table>
+    
+    {% include "paginator.html.twig" %}
 
-    <a href="{{ path('app_player_new') }}">Create new</a>
+    <a href="{{ path('app_player_new') }}">Add new player</a>
 {% endblock %}

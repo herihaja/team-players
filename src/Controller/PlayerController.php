@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Player;
+use App\Entity\Team;
 use App\Form\PlayerType;
 use App\Repository\PlayerRepository;
+use App\Service\TransfertService;
+use App\Utils\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlayerController extends AbstractController
 {
     #[Route('/', name: 'app_player_index', methods: ['GET'])]
-    public function index(PlayerRepository $playerRepository): Response
+    public function index(PlayerRepository $playerRepository, Request $request, Paginator $paginator): Response
     {
+        $paginator->paginate($playerRepository->getPaginatorQuery(), $request->query->getInt('page', 1));
+
         return $this->render('player/index.html.twig', [
-            'players' => $playerRepository->findAll(),
+            'paginator' => $paginator,
         ]);
     }
 
@@ -37,14 +42,6 @@ class PlayerController extends AbstractController
         return $this->render('player/new.html.twig', [
             'player' => $player,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_player_show', methods: ['GET'])]
-    public function show(Player $player): Response
-    {
-        return $this->render('player/show.html.twig', [
-            'player' => $player,
         ]);
     }
 
@@ -72,6 +69,17 @@ class PlayerController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$player->getId(), $request->request->get('_token'))) {
             $playerRepository->remove($player, true);
         }
+
+        return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    // Todo: update method to post
+    #[Route('/{id}/transfert/{team}', name: 'app_player_transfert', methods: ['GET'])]
+    public function transfert(Request $request, Player $player, Team $team, TransfertService $service): Response
+    {
+        $service->transfert($player, $team, 50);
+
+        $this->addFlash('Info', 'The player is transfered...');
 
         return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
     }
