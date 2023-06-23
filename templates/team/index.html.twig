@@ -5,40 +5,51 @@
 {% block title %}Team list{% endblock %}
 
 {% block body %}
-    <h1>Team list</h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0"><h6>Team list</h6></div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Country</th>
-                <th>Balance</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for team in paginator.items %}
-            <tr>
-                <td>{{ team.name }}</td>
-                <td>{{ team.country | country_name }}</td>
-                <td>{{ team.balance }}</td>
-                <td>
-                    <a href="{{ path('app_team_edit', {'id': team.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="jumbotron text-center" id="testVue">
-            <example></example>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0 mx-4">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Country</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Balance</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for team in paginator.items %}
+                                <tr>
+                                    <td>{{ team.name }}</td>
+                                    <td>{{ team.country | country_name }}</td>
+                                    <td>{{ team.balance | format_currency('USD') }}</td>
+                                    <td>
+                                        <a href="{{ path('app_team_edit', {'id': team.id}) }}">Edit</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% include "paginator.html.twig" %}   
+                </div>
+            </div>
         </div>
-    {% include "paginator.html.twig" %}
-
-    <a href="{{ path('app_team_new') }}">Add new team</a>
-
+    </div>
         
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4 text-center p-4">
+                <h5><a href="{{ path('app_team_new') }}">Add new team</a></h5>
+            </div>
+        </div>
+    </div>
 {% endblock %}

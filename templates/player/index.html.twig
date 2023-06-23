@@ -3,36 +3,52 @@
 {% block title %}Player list{% endblock %}
 
 {% block body %}
-    <h1>Player list</h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0"><h6>Player list</h6></div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Team</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for player in paginator.items %}
-            <tr>
-                <td>{{ player.name }}</td>
-                <td>{{ player.surname }}</td>
-                <td>{{ player.team }}</td>
-                <td>
-                    <a href="{{ path('app_player_edit', {'id': player.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    
-    {% include "paginator.html.twig" %}
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0 mx-4">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Surname</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Team</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for player in paginator.items %}
+                                <tr>
+                                    <td>{{ player.name }}</td>
+                                    <td>{{ player.surname }}</td>
+                                    <td>{{ player.team }}</td>
+                                    <td>
+                                        <a href="{{ path('app_player_edit', {'id': player.id}) }}">Edit</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% include "paginator.html.twig" %}        
+                </div>
 
-    <a href="{{ path('app_player_new') }}">Add new player</a>
+            </div>
+       </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4 text-center p-4">
+                <h5><a href="{{ path('app_player_new') }}">Add new player</a></h5>
+            </div>
+        </div>
+    </div>
 {% endblock %}

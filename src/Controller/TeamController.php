@@ -37,9 +37,10 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('team/new.html.twig', [
+        return $this->render('team/form.html.twig', [
             'team' => $team,
             'form' => $form,
+            'isEdit' => false,
         ]);
     }
 
@@ -55,9 +56,10 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('team/edit.html.twig', [
+        return $this->render('team/form.html.twig', [
             'team' => $team,
             'form' => $form,
+            'isEdit' => true,
         ]);
     }
 
@@ -69,5 +71,11 @@ class TeamController extends AbstractController
         }
 
         return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/dashboard', name: 'app_team_dashboard', methods: ['GET'])]
+    public function dashboard(Request $request): Response
+    {
+        return $this->render('team/dashboard.html.twig');
     }
 }

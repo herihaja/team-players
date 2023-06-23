@@ -23,7 +23,7 @@ class Paginator
     /**
      * @param QueryBuilder|Query $query
      */
-    public function paginate($query, int $page = 1, int $limit = 20): Paginator
+    public function paginate($query, int $page = 1, int $limit = 10): Paginator
     {
         $paginator = new OrmPaginator($query);
 
