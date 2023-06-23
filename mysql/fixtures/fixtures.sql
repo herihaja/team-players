@@ -1,3 +1,6 @@
+
+SET CHARACTER SET 'utf8mb4';
+
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 ('DoctrineMigrations\\Version20230620151452', '2023-06-22 04:51:21', 330);
 
@@ -28,8 +31,6 @@ INSERT INTO `team` (`id`, `name`, `country`, `balance`) VALUES
 (24, 'Real Madrid', 'ES', 30000),
 (25, 'AC Milan', 'IT', 25000),
 (26, 'Ajax', 'NL', 10000);
-
-
 
 INSERT INTO `player` (`id`, `team_id`, `name`, `surname`) VALUES
 (1, 1, 'Scott', 'Carson'),

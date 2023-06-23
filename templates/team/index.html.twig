@@ -33,8 +33,12 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <div class="jumbotron text-center" id="testVue">
+            <example></example>
+        </div>
     {% include "paginator.html.twig" %}
 
     <a href="{{ path('app_team_new') }}">Add new team</a>
+
+        
 {% endblock %}

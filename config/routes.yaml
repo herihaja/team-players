@@ -1,5 +1,15 @@
+homepage:
+    path: /
+    controller: App\Controller\TeamController::index
+
+dashboard:
+    path: /dashboard
+    controller: App\Controller\TeamController::index
+
+
 controllers:
     resource:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+

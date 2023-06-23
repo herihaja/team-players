@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Player;
+use App\Entity\Team;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +17,14 @@ class PlayerType extends AbstractType
         $builder
             ->add('name')
             ->add('surname')
-            ->add('team')
+            ->add('team', EntityType::class, [
+                'class' => Team::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
         ;
     }
 
