@@ -39,16 +39,17 @@ class PlayerController extends AbstractController
             return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('player/new.html.twig', [
+        return $this->render('player/form.html.twig', [
             'player' => $player,
             'form' => $form,
+            'isEdit' => false
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_player_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Player $player, PlayerRepository $playerRepository): Response
     {
-        $form = $this->createForm(PlayerType::class, $player);
+        $form = $this->createForm(PlayerType::class, $player, ['isEdit' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,9 +58,10 @@ class PlayerController extends AbstractController
             return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('player/edit.html.twig', [
+        return $this->render('player/form.html.twig', [
             'player' => $player,
             'form' => $form,
+            'isEdit' => true
         ]);
     }
 

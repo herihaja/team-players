@@ -1,14 +1,13 @@
+{% extends 'base.html.twig' %}
 
- {% extends 'base.html.twig' %}
-
-{% block title %}{% if isEdit %}Edit team{% else %}New team{% endif %}{% endblock %}
+{% block title %}{% if isEdit %}Edit player{% else %}New player{% endif %}{% endblock %}
 
 {% block body %}
-    <div class="row">
+<div class="row">
         <div class="mx-auto col-xl-4 col-lg-5 col-md-8 d-flex flex-column">
             <div class="card">
                 <div class="pb-0 card-header text-start">
-                    <h3 class="font-weight-bolder text-success text-gradient"> {% if isEdit %}Edit team{% else %}Add team {% endif %} </h3>
+                    <h3 class="font-weight-bolder text-success text-gradient"> {% if isEdit %}Edit player{% else %}Add player {% endif %} </h3>
                 </div>
                 <div class="card-body">
                     {{ form_start(form) }}
@@ -18,30 +17,30 @@
                             {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-default', 'placeholder': 'Name'} }) }}
                         </div>
                     </div>
-                    <label>Country</label>
+                    <label>Surname</label>
                     <div class="form-group">
                         <div class="">
-                            {{ form_widget(form.country, {'attr': {'class': 'form-control form-control-default'} }) }}
+                            {{ form_widget(form.surname, {'attr': {'class': 'form-control form-control-default', 'placeholder': 'Surname'} }) }}
                         </div>
                     </div>
-
-                    <label>Balance</label>
+                    {% if isEdit == false %}
+                    <label>Team</label>
                     <div class="form-group">
                         <div class="">
-                            {{ form_widget(form.balance, {'attr': {'class': 'form-control form-control-default', 'placeholder': 'Balance amount'} }) }}
+                            {{ form_widget(form.team, {'attr': {'class': 'form-control form-control-default'} }) }}
                         </div>
                     </div>
+                    {% endif %}
                     <div class="text-center">
                         <button class="btn mb-0 bg-gradient-success btn-md w-100 null my-4 mb-2">{{ button_label|default('Save') }}</button>
                     </div>
                     {{ form_end(form) }}
                     {% if isEdit %}
-                        {{ include('team/_delete_form.html.twig') }}
+                        {{ include('player/_delete_form.html.twig') }}
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    {# form_widget(form) #}
-
+    
 {% endblock %}

@@ -16,22 +16,24 @@ class PlayerType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('surname')
-            ->add('team', EntityType::class, [
+            ->add('surname');
+            
+        if (!$options['isEdit'])
+            $builder->add('team', EntityType::class, [
                 'class' => Team::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.name', 'ASC');
                 },
                 'choice_label' => 'name',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Player::class,
+            'isEdit' => false,
         ]);
     }
 }
