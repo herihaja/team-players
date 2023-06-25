@@ -8,6 +8,7 @@ const lastPage = ref(null);
 const currentPage = ref(1);
 const total = ref(null);
 const teams = ref([]);
+
 export default {
     components: {Pagination},
     setup() {
@@ -24,20 +25,24 @@ export default {
             this.refreshData(data.link);
         },
         refreshData: (url) => {
+            const loader = document.getElementById('loader');
             const teamFilter = document.getElementById('player_team').value;
             const search = document.getElementById('player_search').value;
             url = `${url}&team=${teamFilter}&search=${search}`;
-            try {
-                axios.get(url).then(response => {
-                    players.value = response.data.data;
-                    lastPage.value = response.data.lastPage;
-                    currentPage.value = response.data.currentPage;
-                    total.value = response.data.count;
-                });
-                
-            } catch (error) {
+            loader.style.display = 'block';
+            players.value = [];
+            axios.get(url).then(response => {
+                players.value = response.data.data;
+                lastPage.value = response.data.lastPage;
+                currentPage.value = response.data.currentPage;
+                total.value = response.data.count;
+            })
+            .catch(error => {
                 console.error(error);
-            }
+            })
+            .finally(() => {
+                loader.style.display = 'none';
+            });
         },
         triggerFilter(){
             this.refreshData('/player/json?');
@@ -112,6 +117,7 @@ export default {
                             
                             </tbody>
                         </table>
+                        <div id="loader" class="w-3 h-3 mx-30"><img class="w-100 h-100" src="../assets/img/loading.gif"/></div>
                     </div>
                     <pagination :lastPage="lastPage" :currentPage="currentPage" :total="total" @clickedPageLink="handleChildClick">
                     </pagination>
