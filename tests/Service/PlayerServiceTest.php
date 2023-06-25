@@ -1,10 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use App\Service\PlayerService;
 use App\Entity\Player;
 use App\Entity\Team;
+use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PlayerServiceTest extends TestCase
@@ -64,18 +64,18 @@ class PlayerServiceTest extends TestCase
                 '/player/1/edit',
                 '/player/1/transfert'
             );
-        
+
         $item = [
             'id' => 1,
             'name' => 'John Doe',
-            'age' => 25
+            'age' => 25,
         ];
-        
+
         $result = $this->playerService->addLinks($item);
-        
+
         $this->assertEquals('/player/1/edit', $result['editLink']);
         $this->assertEquals('/player/1/transfert', $result['transfertLink']);
-        
+
         $this->assertEquals(1, $result['id']);
         $this->assertEquals('John Doe', $result['name']);
         $this->assertEquals(25, $result['age']);

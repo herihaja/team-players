@@ -25,7 +25,7 @@ class Paginator
 
     public function __construct(
         protected ParameterBagInterface $params
-    ){
+    ) {
         $this->perPage = (int) $this->params->get('perPage');
     }
 

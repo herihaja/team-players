@@ -11,10 +11,10 @@ use App\Service\PlayerService;
 use App\Utils\ApiPaginator;
 use App\Utils\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/player')]
 class PlayerController extends AbstractController
@@ -29,18 +29,20 @@ class PlayerController extends AbstractController
         ]);
     }
 
-    
-
     #[Route('/axios', name: 'app_player_list', methods: ['GET'])]
     public function axios(PlayerRepository $playerRepository, Request $request, ApiPaginator $paginator, PlayerService $service): JsonResponse
     {
         $paginator->paginate(
-            $playerRepository->getPaginatorQuery(), 
+            $playerRepository->getPaginatorQuery(),
             $request->query->getInt('page', 1),
             function ($item) use ($service) { return $service->addLinks($item); }
         );
-        
-        return new JsonResponse(['data' => $paginator->getItems()]);
+
+        return new JsonResponse([
+            'data' => $paginator->getItems(),
+            'count' => $paginator->getTotal(),
+            'lastPage' => $paginator->getLastPage(),
+        ]);
     }
 
     #[Route('/new', name: 'app_player_new', methods: ['GET', 'POST'])]
@@ -59,7 +61,7 @@ class PlayerController extends AbstractController
         return $this->render('player/form.html.twig', [
             'player' => $player,
             'form' => $form,
-            'isEdit' => false
+            'isEdit' => false,
         ]);
     }
 
@@ -78,7 +80,7 @@ class PlayerController extends AbstractController
         return $this->render('player/form.html.twig', [
             'player' => $player,
             'form' => $form,
-            'isEdit' => true
+            'isEdit' => true,
         ]);
     }
 
@@ -95,21 +97,22 @@ class PlayerController extends AbstractController
     #[Route('/{id}/transfert', name: 'app_player_transfert', methods: ['GET', 'POST'])]
     public function transfert(Request $request, Player $player, PlayerService $service, TeamRepository $teamRepository): Response
     {
-        $form = $this->createForm(TransfertType::class, $player, ['allow_extra_fields'=> true]);
+        $form = $this->createForm(TransfertType::class, $player, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $postData = $request->request->all('transfert');
-            $team = $teamRepository->find($postData["destination"]);
+            $team = $teamRepository->find($postData['destination']);
             $service->transfert($player, $team, $postData['price']);
-            
+
             $this->addFlash('Info', 'The player is transfered...');
+
             return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('player/transfert.html.twig', [
             'player' => $player,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 

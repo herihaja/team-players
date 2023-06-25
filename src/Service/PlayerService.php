@@ -14,7 +14,6 @@ class PlayerService
         private UrlGeneratorInterface $router,
     ) {
     }
-    
 
     public function transfert(Player $player, Team $destination, float $price): void
     {
@@ -34,14 +33,17 @@ class PlayerService
     }
 
     /**
-     * Add links to an item to be returned as api response
+     * Add links to an item to be returned as api response.
+     *
      * @param array<mixed> $item
+     *
      * @return array<mixed>
      */
     public function addLinks(array $item): array
     {
         $item['editLink'] = $this->router->generate('app_player_edit', ['id' => $item['id']]);
         $item['transfertLink'] = $this->router->generate('app_player_transfert', ['id' => $item['id']]);
+
         return $item;
     }
 }

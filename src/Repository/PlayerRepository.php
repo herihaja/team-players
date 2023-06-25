@@ -40,7 +40,6 @@ class PlayerRepository extends ServiceEntityRepository
         }
     }
 
-
     /***
      * Prepare QuerySet to be used with paginator
      */

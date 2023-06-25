@@ -17,8 +17,8 @@ class PlayerType extends AbstractType
         $builder
             ->add('name')
             ->add('surname');
-            
-        if (!$options['isEdit'])
+
+        if (!$options['isEdit']) {
             $builder->add('team', EntityType::class, [
                 'class' => Team::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -27,6 +27,7 @@ class PlayerType extends AbstractType
                 },
                 'choice_label' => 'name',
             ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
