@@ -25,6 +25,7 @@
         "vuex": "^4.0.2"
     },
     "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^3.2.0",
         "@symfony/ux-vue": "file:vendor/symfony/ux-vue/assets",
         "@symfony/webpack-encore": "^4.3.0",

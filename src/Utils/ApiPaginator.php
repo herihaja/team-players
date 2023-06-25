@@ -27,24 +27,4 @@ class ApiPaginator extends Paginator
         
         return $this;
     }
-
-    /**
-     * Transform items into array
-     * Use serializer later
-     * @return array<mixed>
-     */
-    private function transformItems(): array
-    {
-        $items = [];
-        foreach($this->getItems() as $item) {
-            $attributes = get_object_vars($item);
-            $element = [];
-            foreach($attributes as $attr) {
-                $element[$attr] = getAttr($item, $attr);
-            }
-            $items[] = $element;
-        }
-
-        return $items;
-    }
 }
