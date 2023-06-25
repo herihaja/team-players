@@ -79,6 +79,6 @@ class TeamController extends AbstractController
     {
         $teams = $teamRepository->getAllAsArray();
 
-        return new JsonResponse(['data' =>$teams]);
+        return new JsonResponse(['data' => $teams]);
     }
 }

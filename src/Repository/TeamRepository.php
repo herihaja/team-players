@@ -52,8 +52,8 @@ class TeamRepository extends ServiceEntityRepository
         $items = $this->getEntityManager()
                     ->createQueryBuilder()
                     ->from('App\Entity\Team', 't')
-                    ->select("t.id, t.name")
-                    ->orderBy("t.name")
+                    ->select('t.id, t.name')
+                    ->orderBy('t.name')
                     ->getQuery()
                     ->setHydrationMode(Query::HYDRATE_ARRAY)
                     ->getResult();
