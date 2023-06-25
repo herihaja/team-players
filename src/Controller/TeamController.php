@@ -7,6 +7,7 @@ use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use App\Utils\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -71,5 +72,13 @@ class TeamController extends AbstractController
         }
 
         return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/json', name: 'app_team_json', methods: ['GET'])]
+    public function getAllAsJson(TeamRepository $teamRepository): JsonResponse
+    {
+        $teams = $teamRepository->getAllAsArray();
+
+        return new JsonResponse(['data' =>$teams]);
     }
 }

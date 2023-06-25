@@ -7,6 +7,7 @@ const players = ref([]);
 const lastPage = ref(null);
 const currentPage = ref(1);
 const total = ref(null);
+const teams = ref([]);
 export default {
     components: {Pagination},
     setup() {
@@ -14,15 +15,18 @@ export default {
             players,
             lastPage,
             currentPage,
-            total
+            total,
+            teams
         }
     },
     methods: {
         handleChildClick(data) {
-            console.log(data);
             this.refreshData(data.link);
         },
         refreshData: (url) => {
+            const teamFilter = document.getElementById('player_team').value;
+            const search = document.getElementById('player_search').value;
+            url = `${url}&team=${teamFilter}&search=${search}`;
             try {
                 axios.get(url).then(response => {
                     players.value = response.data.data;
@@ -34,10 +38,20 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        },
+        triggerFilter(){
+            this.refreshData('/player/json?');
         }
     },
     mounted() {
-        this.refreshData('/player/json');
+        try {
+            axios.get('/team/json').then(response => {
+                teams.value = response.data.data;
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        this.refreshData('/player/json?');
     }
 }
 </script>
@@ -48,6 +62,32 @@ export default {
                 <div class="card-header pb-0"><h6>Player list (using VueJs)</h6></div>
 
                 <div class="card-body px-0 pt-0 pb-2">
+
+                    <div class="row px-4">
+                        
+                        <div class="form-group col-4">
+                            <div class="">
+                                Search:
+                                <input name="search" id="player_search" class="form-control form-control-default"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <div class="">
+                                Team:
+                                <select id="player_team" name="team_filter" class="form-control form-control-default">
+                                    <option value="">Select a team</option>
+                                    <option v-for="option in teams" :key="option.id" :value="option.id">{{ option.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2"/>
+                        <div class="form-group col-2">
+                            <div class="">
+                                <input type="button" value="Search" :onClick="triggerFilter" class="btn mb-0 bg-gradient-dark btn-md w-100 null my-4 mb-2"/>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table-responsive p-0 mx-4">
                         <table class="table align-items-center mb-0">
                             <thead>

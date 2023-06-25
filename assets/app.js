@@ -17,9 +17,6 @@ import PlayerIndex from "./components/PlayerIndex.vue";
 
 const appInstance = createApp(
     PlayerIndex
-    /*{
-        components: PlayerIndex,
-    }*/
 );
 //appInstance.use(store);
 appInstance.use(router);

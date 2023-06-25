@@ -30,11 +30,18 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/json', name: 'app_player_list', methods: ['GET'])]
-    public function axios(PlayerRepository $playerRepository, Request $request, ApiPaginator $paginator, PlayerService $service): JsonResponse
+    public function axios(
+        PlayerRepository $playerRepository, 
+        Request $request, 
+        ApiPaginator $paginator, 
+        PlayerService $service
+    ): JsonResponse
     {
         $currentPage = $request->query->getInt('page', 1);
+        $search = $request->query->get('search', null);
+        $team = $request->query->getInt('team', 0);
         $paginator->paginate(
-            $playerRepository->getPaginatorQuery(),
+            $playerRepository->getPaginatorQuery($search, $team),
             $currentPage,
             function ($item) use ($service) { return $service->addLinks($item); }
         );
@@ -97,7 +104,12 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/{id}/transfert', name: 'app_player_transfert', methods: ['GET', 'POST'])]
-    public function transfert(Request $request, Player $player, PlayerService $service, TeamRepository $teamRepository): Response
+    public function transfert(
+        Request $request, 
+        Player $player, 
+        PlayerService $service, 
+        TeamRepository $teamRepository
+    ): Response
     {
         $form = $this->createForm(TransfertType::class, $player, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
