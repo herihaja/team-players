@@ -18,19 +18,20 @@ class Paginator
      */
     private $lastPage;
 
-    private $items;
+    protected $items;
 
     /**
      * @param QueryBuilder|Query $query
      */
     public function paginate($query, int $page = 1, int $limit = 10): Paginator
     {
-        $paginator = new OrmPaginator($query);
+        $paginator = new OrmPaginator($query, true);
 
         $paginator
             ->getQuery()
             ->setFirstResult($limit * ($page - 1))
             ->setMaxResults($limit);
+        $paginator->setUseOutputWalkers(false);
 
         $this->total = $paginator->count();
         $this->lastPage = (int) ceil($paginator->count() / $paginator->getQuery()->getMaxResults());

@@ -10,50 +10,21 @@ import SignUp from "../views/SignUp.vue";
 
 const routes = [
   {
-    path: "/",
-    name: "/",
-    redirect: "/dashboard",
-  },
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard,
-  },
-  {
-    path: "/tables",
-    name: "Tables",
+    path: "/teamvue",
+    name: "team.index",
     component: Tables,
   },
   {
-    path: "/billing",
-    name: "Billing",
-    component: Billing,
+    path: "/team/dashboard",
+    name: "team.index",
+    component: Tables,
   },
   {
-    path: "/virtual-reality",
-    name: "Virtual Reality",
-    component: VirtualReality,
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: Profile,
-  },
-  {
-    path: "/rtl-page",
-    name: "Rtl",
-    component: Rtl,
-  },
-  {
-    path: "/sign-in",
-    name: "Sign In",
-    component: SignIn,
-  },
-  {
-    path: "/sign-up",
-    name: "Sign Up",
-    component: SignUp,
-  },
+    path: '/players/:id/show',
+    name: 'players.show',
+    component: Tables,
+    props: true
+  }
 ];
 
 const router = createRouter({

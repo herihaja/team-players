@@ -1,8 +1,34 @@
-{% extends 'base.html.twig' %}
+<script>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-{% block title %}Player list{% endblock %}
-
-{% block body %}
+const players = ref([]);
+export default {
+    setup() {
+        //const players = [];
+        
+        //const {players, getPlayers} = usePlayers();
+        //onMounted(getPlayers);
+        // getPlayers();
+        //console.log(players);
+        
+        return {
+            players
+        }
+    },
+    mounted: () => {
+        try {
+            axios.get('/player/axios').then(response => {
+                players.value.push(...response.data.data);
+            });
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+</script>
+<template>
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -20,36 +46,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for player in paginator.items %}
-                                <tr>
+                            
+                                <tr v-for="player in players" :key="player.id">
                                     <td>{{ player.name }}</td>
                                     <td>{{ player.surname }}</td>
                                     <td>{{ player.team }}</td>
                                     <td>
-                                        <a href="{{ path('app_player_edit', {'id': player.id}) }}">Edit</a> | 
-                                        <a href="{{ path('app_player_transfert', {'id': player.id}) }}">Transfert</a>
+                                        <a :href="player.editLink">Edit</a> | 
+                                        <a :href="player.transfertLink">Transfert</a>
                                     </td>
                                 </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="4">no records found</td>
-                                </tr>
-                            {% endfor %}
+                            
                             </tbody>
                         </table>
                     </div>
-                    {% include "paginator.html.twig" %}        
                 </div>
-
-            </div>
-       </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4 text-center p-4">
-                <h5><a href="{{ path('app_player_new') }}">Add new player</a></h5>
             </div>
         </div>
     </div>
-{% endblock %}
+</template>

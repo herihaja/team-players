@@ -40,9 +40,15 @@ class PlayerRepository extends ServiceEntityRepository
         }
     }
 
+
+    /***
+     * Prepare QuerySet to be used with paginator
+     */
     public function getPaginatorQuery(): Query
     {
         return $this->createQueryBuilder('p')
+            ->select(['p.id, p.name, p.surname, t.name as team'])
+            ->join('p.team', 't')
             ->getQuery()
         ;
     }
