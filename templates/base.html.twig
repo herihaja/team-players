@@ -45,11 +45,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ path('app_player_index') }}" class="{% if route_name starts with "app_player_" %}active router-link-exact-active {% endif %}nav-link" aria-current="page">
+                        <a href="{{ path('app_player_index') }}" class="{% if route_name starts with "app_player_" and not(route_name == "app_player_vuejs") %}active router-link-exact-active {% endif %}nav-link" aria-current="page">
                             <div class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center me-2">
                                 <slot name="icon"></slot>
                             </div>
                             <span class="nav-link-text ms-1">Player</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_player_vuejs') }}" class="{% if route_name starts with "app_player_vuejs" %}active router-link-exact-active {% endif %}nav-link" aria-current="page">
+                            <div class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center me-2">
+                                <slot name="icon"></slot>
+                            </div>
+                            <span class="nav-link-text ms-1">Player (VueJs)</span>
                         </a>
                     </li>
                 </ul>

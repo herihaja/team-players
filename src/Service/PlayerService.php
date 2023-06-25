@@ -11,7 +11,7 @@ class PlayerService
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private UrlGeneratorInterface $router
+        private UrlGeneratorInterface $router,
     ) {
     }
     

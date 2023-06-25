@@ -11,12 +11,12 @@ class ApiPaginator extends Paginator
     /**
      * @param QueryBuilder|Query $query
      */
-    public function paginate($query, int $page = 1, int $limit = 10, $addLink=null): Paginator
+    public function paginate($query, int $page = 1, $addLink=null): Paginator
     {
         $query->setHint(Query::HINT_INCLUDE_META_COLUMNS, true)
             ->setHydrationMode(Query::HYDRATE_ARRAY);
 
-        parent::paginate($query, $page, $limit);
+        parent::paginate($query, $page);
         $items = [];
         foreach($this->getItems() as $item){
             if ($addLink)

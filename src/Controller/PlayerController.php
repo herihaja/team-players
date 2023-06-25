@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Player;
-use App\Entity\Team;
 use App\Form\PlayerType;
 use App\Form\TransfertType;
 use App\Repository\PlayerRepository;
@@ -16,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\Query;
 
 #[Route('/player')]
 class PlayerController extends AbstractController
@@ -39,7 +37,6 @@ class PlayerController extends AbstractController
         $paginator->paginate(
             $playerRepository->getPaginatorQuery(), 
             $request->query->getInt('page', 1),
-            10,
             function ($item) use ($service) { return $service->addLinks($item); }
         );
         
@@ -95,7 +92,6 @@ class PlayerController extends AbstractController
         return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    // Todo: update method to post
     #[Route('/{id}/transfert', name: 'app_player_transfert', methods: ['GET', 'POST'])]
     public function transfert(Request $request, Player $player, PlayerService $service, TeamRepository $teamRepository): Response
     {
@@ -106,6 +102,7 @@ class PlayerController extends AbstractController
             $postData = $request->request->all('transfert');
             $team = $teamRepository->find($postData["destination"]);
             $service->transfert($player, $team, $postData['price']);
+            
             $this->addFlash('Info', 'The player is transfered...');
             return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -116,7 +113,7 @@ class PlayerController extends AbstractController
         ]);
     }
 
-    #[Route('/vuejs', name: 'app_player_dashboard', methods: ['GET'])]
+    #[Route('/vuejs', name: 'app_player_vuejs', methods: ['GET'])]
     public function dashboard(Request $request): Response
     {
         return $this->render('team/dashboard.html.twig');

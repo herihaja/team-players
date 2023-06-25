@@ -5,6 +5,7 @@ namespace App\Utils;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class Paginator
 {
@@ -20,17 +21,25 @@ class Paginator
 
     protected $items;
 
+    private int $perPage;
+
+    public function __construct(
+        protected ParameterBagInterface $params
+    ){
+        $this->perPage = (int) $this->params->get('perPage');
+    }
+
     /**
      * @param QueryBuilder|Query $query
      */
-    public function paginate($query, int $page = 1, int $limit = 10): Paginator
+    public function paginate($query, int $page = 1): Paginator
     {
         $paginator = new OrmPaginator($query, true);
 
         $paginator
             ->getQuery()
-            ->setFirstResult($limit * ($page - 1))
-            ->setMaxResults($limit);
+            ->setFirstResult($this->perPage * ($page - 1))
+            ->setMaxResults($this->perPage);
         $paginator->setUseOutputWalkers(false);
 
         $this->total = $paginator->count();
