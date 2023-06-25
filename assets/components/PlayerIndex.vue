@@ -1,30 +1,43 @@
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
+import Pagination from "./Pagination.vue";
 
 const players = ref([]);
+const lastPage = ref(null);
+const currentPage = ref(1);
+const total = ref(null);
 export default {
+    components: {Pagination},
     setup() {
-        //const players = [];
-        
-        //const {players, getPlayers} = usePlayers();
-        //onMounted(getPlayers);
-        // getPlayers();
-        //console.log(players);
-        
         return {
-            players
+            players,
+            lastPage,
+            currentPage,
+            total
         }
     },
-    mounted: () => {
-        try {
-            axios.get('/player/axios').then(response => {
-                players.value.push(...response.data.data);
-            });
-            
-        } catch (error) {
-            console.error(error);
+    methods: {
+        handleChildClick(data) {
+            console.log(data);
+            this.refreshData(data.link);
+        },
+        refreshData: (url) => {
+            try {
+                axios.get(url).then(response => {
+                    players.value = response.data.data;
+                    lastPage.value = response.data.lastPage;
+                    currentPage.value = response.data.currentPage;
+                    total.value = response.data.count;
+                });
+                
+            } catch (error) {
+                console.error(error);
+            }
         }
+    },
+    mounted() {
+        this.refreshData('/player/json');
     }
 }
 </script>
@@ -60,8 +73,12 @@ export default {
                             </tbody>
                         </table>
                     </div>
+                    <pagination :lastPage="lastPage" :currentPage="currentPage" :total="total" @clickedPageLink="handleChildClick">
+                    </pagination>
                 </div>
             </div>
+            
         </div>
     </div>
+    
 </template>

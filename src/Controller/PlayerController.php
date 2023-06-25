@@ -29,12 +29,13 @@ class PlayerController extends AbstractController
         ]);
     }
 
-    #[Route('/axios', name: 'app_player_list', methods: ['GET'])]
+    #[Route('/json', name: 'app_player_list', methods: ['GET'])]
     public function axios(PlayerRepository $playerRepository, Request $request, ApiPaginator $paginator, PlayerService $service): JsonResponse
     {
+        $currentPage = $request->query->getInt('page', 1);
         $paginator->paginate(
             $playerRepository->getPaginatorQuery(),
-            $request->query->getInt('page', 1),
+            $currentPage,
             function ($item) use ($service) { return $service->addLinks($item); }
         );
 
@@ -42,6 +43,7 @@ class PlayerController extends AbstractController
             'data' => $paginator->getItems(),
             'count' => $paginator->getTotal(),
             'lastPage' => $paginator->getLastPage(),
+            'currentPage' => $currentPage
         ]);
     }
 
