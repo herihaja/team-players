@@ -64,8 +64,19 @@
             </div>
         </aside>
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-            <div id="navbarBlur" class="shadow-none navbar navbar-main navbar-expand-lg border-radius-xl px-0 mx-4 mt-4"></div>
-            <div id="appa" class="py-4 container-fluid">
+            <div id="navbarBlur" class="shadow-none navbar navbar-main navbar-expand-lg border-radius-xl px-0 mx-4 mt-4" style="display: none;">
+                <a href="{{ path('app_team_index') }}" class="{% if route_name starts with "app_team_" %}active router-link-exact-active {% endif %}nav-link" aria-current="page">
+                            <span class="nav-link-text ms-1">Team</span>
+                        </a> | 
+                
+                <a href="{{ path('app_player_index') }}" class="{% if route_name starts with "app_player_" and not(route_name == "app_player_vuejs") %}active router-link-exact-active {% endif %}nav-link" aria-current="page">
+                            <span class="nav-link-text ms-1">Player</span>
+                        </a> | 
+                <a href="{{ path('app_player_vuejs') }}" class="{% if route_name starts with "app_player_vuejs" %}active router-link-exact-active {% endif %}nav-link" aria-current="page">
+                            <span class="nav-link-text ms-1">Player (VueJs)</span>
+                        </a>
+            </div>
+            <div id="app" class="py-4 container-fluid">
                 {% block body %}{% endblock %}
             </div>
         </main>
