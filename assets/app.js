@@ -6,7 +6,6 @@
  */
 
 import { createApp } from "vue";
-import router from "./router";
 import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 import "./assets/scss/soft-ui-dashboard.scss";
@@ -15,5 +14,4 @@ import PlayerIndex from "./components/PlayerIndex.vue";
 const appInstance = createApp(
     PlayerIndex
 );
-appInstance.use(router);
 appInstance.mount("#players");
