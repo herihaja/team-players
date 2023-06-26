@@ -13,7 +13,7 @@ Or you can leave default values as they are.
 
 - Run `docker-compose up -d`.
 
-- Login into the container using this command:
+Login into the container using this command:
   `docker-compose exec php bash`.
 
 - Run `composer install`.
@@ -22,8 +22,10 @@ Or you can leave default values as they are.
 
 - Run `npm run dev`.
 
+To Run unit test (to be ran inside php container)
+- Run `php bin/phpunit`
 
 
-- You can access application on below urls:
-- Projet url: `localhost:8008`
-- PhpMyAdmin url: `localhost:8090`
+You can access application on below urls:
+* Projet url: `localhost:8008`
+* PhpMyAdmin url: `localhost:8090`

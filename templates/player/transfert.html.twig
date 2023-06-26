@@ -4,12 +4,18 @@
 
 {% block body %}
 <div class="row">
-        <div class="mx-auto col-xl-4 col-lg-5 col-md-8 d-flex flex-column">
+        <div class="mx-auto col-xl-6 col-lg-8 col-md-10 d-flex flex-column">
             <div class="card">
                 <div class="pb-0 card-header text-start">
                     <h3 class="font-weight-bolder text-success text-gradient"> Transfert player to another team</h3>
                 </div>
+
                 <div class="card-body">
+                    {% if message %}
+                    <div class="alert alert-warning">
+                        <strong>Warning!</strong> {{ message }} 
+                    </div>
+                    {% endif %}
                     {{ form_start(form) }}
                     <label>Name</label>
                     <div class="form-group">

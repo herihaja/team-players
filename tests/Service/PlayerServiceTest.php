@@ -51,9 +51,14 @@ class PlayerServiceTest extends TestCase
         $source->setBalance(200.0);
         $destination->setBalance(80.0);
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('This team can not afford this player!!');
-        $this->playerService->transfert($player, $destination, $price);
+        $result = $this->playerService->transfert($player, $destination, $price);
+        $this->assertEquals(
+            [
+                'success' => false,
+                'message' => 'The destination team cannot afford this player.',
+            ],
+            $result
+        );
     }
 
     public function testAddLinks()

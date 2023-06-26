@@ -111,20 +111,24 @@ class PlayerController extends AbstractController
     ): Response {
         $form = $this->createForm(TransfertType::class, $player, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
+        $message = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $postData = $request->request->all('transfert');
             $team = $teamRepository->find($postData['destination']);
-            $service->transfert($player, $team, $postData['price']);
+            $result = $service->transfert($player, $team, $postData['price']);
+            if ($result['success']) {
+                $this->addFlash('Info', 'The player is transfered...');
 
-            $this->addFlash('Info', 'The player is transfered...');
-
-            return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_player_index', [], Response::HTTP_SEE_OTHER);
+            }
+            $message = $result['message'];
         }
 
         return $this->render('player/transfert.html.twig', [
             'player' => $player,
             'form' => $form,
+            'message' => $message,
         ]);
     }
 
