@@ -1,4 +1,4 @@
-Team management (test task Herihaja & Internet Projects ltd)
+Team management (test task Herihaja)
 --
 Please follow below steps to setup project:
 
