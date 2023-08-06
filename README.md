@@ -4,7 +4,7 @@ Please follow below steps to setup project:
 
 - First you need to install docker and docker-compose from docker official site https://docs.docker.com/get-docker/. Once you have installed it then you can proceed further installation below.
 
-- Clone repository using `git clone git@github.com:herihaja/testtask.git` command.
+- Clone repository using `git clone git@github.com:herihaja/team-players.git` command.
 
 - Create `.env` file in root directory from `.env.example` file and set parameter values accordingly,
 Or you can leave default values as they are.
